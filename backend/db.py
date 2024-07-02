@@ -1,10 +1,7 @@
 import psycopg2
 from env import DB_HOST, DB_USER, DB_PASS, DB_NAME, DB_PORT
-import sys
-sys.path.append('C:\\Users\\ira\\OneDrive\\Документы\\GitHub\\Uchebnaya_practica_june-july-2024\\parser') 
-import vacancy
-# from vacancy 
-import time 
+from ..parser.vacancy import search
+# import time 
 
 conn = psycopg2.connect(
     dbname=DB_NAME,
