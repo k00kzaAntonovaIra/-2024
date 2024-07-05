@@ -1,43 +1,62 @@
 import psycopg2
 from env import DB_HOST, DB_USER, DB_PASS, DB_NAME, DB_PORT
-from ..parser.vacancy import search
-# import time 
-
-conn = psycopg2.connect(
-    dbname=DB_NAME,
-    user=DB_USER,
-    password=DB_PASS,
-    host=DB_HOST,
-    port = DB_PORT
-)
+from parser_vacancy import search
 
 
-# cur = conn.cursor()
+def insert(data: list[dict]):
+    conn = psycopg2.connect(
+        dbname=DB_NAME,
+        user=DB_USER,
+        password=DB_PASS,
+        host=DB_HOST,
+        port = DB_PORT
+    )
+    cur = conn.cursor()
 
-# def insert(data, conn):
+    try:
+        for i in data:
+            insert_query = """INSERT INTO vacancy_table (id, name, city, experience, employment, requirement, responsibility, salary, link)
+                    VALUES (%(id)s, %(name)s, %(city)s, %(experience)s, %(employment)s, %(requirement)s, %(responsibility)s, %(salary)s, %(link)s)"""
+            cur.execute(insert_query, i)    
+            conn.commit()     
+    except Exception as e:
+        print(f"An error occurred: {e}")
+    finally:
+
+        cur.close()  
+        conn.close()
+
+data = search("менеджер")
+insert(data)
+
+# def select_by_params(area, salary, employment):
+#     conn = psycopg2.connect(
+#         dbname=DB_NAME,
+#         user=DB_USER,
+#         password=DB_PASS,
+#         host=DB_HOST,
+#         port = DB_PORT
+#     )
 #     cur = conn.cursor()
-#     try:
-#         insert_query = """INSERT INTO vacancy_table (id, name, city, schedule, experience, employment, requirement, responsibility, salary, link)
-#                   VALUES (%(id)s, %(name)s, %(city)s, %(schedule)s, %(experience)s, %(employment)s, %(requirement)s, %(responsibility)s, %(salary)s, %(link)s)"""
-
-#         cur.execute(insert_query, data)
-        
-#     except Exception as e:
-#         print(f"An error occurred: {e}")
-#     finally:
-#         conn.commit()
-#         cur.close()  
+#     cur = conn.cursor()
+#     str_select = "SELECT * FROM vacancy_table"
+#     if area or salary or employment:
 
 
-cur = conn.cursor()
-cur.execute("ALTER TABLE vacancy_table ALTER COLUMN salary SET DATA TYPE varchar;")
-conn.commit()
-cur.close()
+#     cur.execute(str_select, )
+#     cur.close()  
+#     conn.close()
+
+
+
+
+
+# cur.close()
+
 # for link in vacancy.get_data("менеджер"):
 #     vac = vacancy.get_vacancy(link)
 #     insert(vac, conn)
-#     time.sleep(0.05)
-conn.close()
+
 
 # cur.execute("CREATE TABLE vacancy_table (id int primary key, name varchar, city varchar, schedule varchar, experience varchar, employment varchar, requirement varchar, responsibility varchar, salary json, link varchar);")
 
@@ -48,7 +67,7 @@ conn.close()
 # conn.commit()
 
 # cur.close()
-
+# cur.execute("DELETE FROM vacancy_table;")
 # cur.execute("CREATE TABLE vacancy_table (id int primary key, name varchar, city varchar, schedule varchar, experience varchar, employment varchar, requirement varchar, responsibility varchar, salary json, link varchar);")
 
 # cur.execute("DELETE FROM vacancy_table WHERE id = 102756090")
