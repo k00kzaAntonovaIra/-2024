@@ -13,9 +13,13 @@ def fetch_all(urls):
     return results
 
 
-def search_for_text(text) -> list[str]:
+def search_for_text(text, experience) -> list[str]:
+    
+    s = ''
+    if experience:
+        s+=f"&experience={experience}"
     urls = [
-        f"https://api.hh.ru/vacancies?page={page}&per_page=100&text={text}"
+        f"https://api.hh.ru/vacancies?page={page}&per_page=100&text={text}"+s
         for page in range(20)
     ]
     return urls
@@ -43,8 +47,8 @@ def get_vacancy(item):
     return vacancy
 
 
-def search(query: str) -> list[dict]:
-    results = fetch_all(search_for_text(query))
+def search(query: str, experience:str) -> list[dict]:
+    results = fetch_all(search_for_text(query, experience))
     try:
         vacancies = []
         for result in results:

@@ -1,6 +1,6 @@
 import psycopg2
-from env import DB_HOST, DB_USER, DB_PASS, DB_NAME, DB_PORT
-from parser_vacancy import search
+from backend.env import DB_HOST, DB_USER, DB_PASS, DB_NAME, DB_PORT
+
 
 
 def insert(data: list[dict]):
@@ -26,26 +26,46 @@ def insert(data: list[dict]):
         cur.close()  
         conn.close()
 
-data = search("менеджер")
-insert(data)
+# data = search("менеджер")
+# insert(data)
 
-# def select_by_params(area, salary, employment):
-#     conn = psycopg2.connect(
-#         dbname=DB_NAME,
-#         user=DB_USER,
-#         password=DB_PASS,
-#         host=DB_HOST,
-#         port = DB_PORT
-#     )
-#     cur = conn.cursor()
-#     cur = conn.cursor()
-#     str_select = "SELECT * FROM vacancy_table"
-#     if area or salary or employment:
+def select_by_params(city, salary, employment):
+    conn = psycopg2.connect(
+        dbname=DB_NAME,
+        user=DB_USER,
+        password=DB_PASS,
+        host=DB_HOST,
+        port = DB_PORT
+    )
+    cur = conn.cursor()
+
+    try:
+        s = "SELECT * FROM vacancy_table"
+        params = []
+
+        if city or salary or employment:
+            s+=" WHERE "
+            if city:
+                s+= " city ILIKE %s AND"
+                params.append('%'+city+'%')
+            if salary:
+                s+= " salary ILIKE %s AND"
+                params.append('%'+salary+'%')
+            if employment:
+                s += " employment ILIKE %s AND"
+                params.append(employment + '%')
+            s = s.rstrip(' AND')
+        cur.execute(s, params)
+        data = cur.fetchall()
+
+    except Exception as e:
+        print(f"An error occurred: {e}")
+    finally:
+        cur.close()  
+        conn.close()
+        return data
 
 
-#     cur.execute(str_select, )
-#     cur.close()  
-#     conn.close()
 
 
 
