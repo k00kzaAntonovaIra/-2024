@@ -1,5 +1,5 @@
-DB_HOST = "127.0.0.1"
+DB_HOST = "db"
 DB_USER = "postgres"
 DB_PASS = "tasks12345"
 DB_NAME = "postgres"
-DB_PORT = "5433"
+DB_PORT = "5432"
