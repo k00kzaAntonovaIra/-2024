@@ -1,7 +1,6 @@
 from fastapi import FastAPI
 from db import insert, select_by_params, create_table
 from parser_vacancy import search
-from fastapi.responses import Response
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 

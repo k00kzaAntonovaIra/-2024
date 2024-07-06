@@ -40,9 +40,6 @@ def insert(data: list[dict]):
         cur.close()  
         conn.close()
 
-# data = search("менеджер")
-# insert(data)
-
 def select_by_params(city, salary, employment):
     conn = psycopg2.connect(
         dbname=DB_NAME,
@@ -78,60 +75,3 @@ def select_by_params(city, salary, employment):
         cur.close()  
         conn.close()
         return data
-
-
-
-
-
-
-
-# cur.close()
-
-# for link in vacancy.get_data("менеджер"):
-#     vac = vacancy.get_vacancy(link)
-#     insert(vac, conn)
-
-
-# cur.execute("CREATE TABLE vacancy_table (id int primary key, name varchar, city varchar, schedule varchar, experience varchar, employment varchar, requirement varchar, responsibility varchar, salary json, link varchar);")
-
-# cur.execute("SELECT * FROM vacancy_table;")
-# a=cur.fetchone()
-# print(a)
-
-# conn.commit()
-
-# cur.close()
-# cur.execute("DELETE FROM vacancy_table;")
-# cur.execute("CREATE TABLE vacancy_table (id int primary key, name varchar, city varchar, schedule varchar, experience varchar, employment varchar, requirement varchar, responsibility varchar, salary json, link varchar);")
-
-# cur.execute("DELETE FROM vacancy_table WHERE id = 102756090")
-# data = {'id': '102756090', 
-#         'name': 'Методист по информатике', 
-#         'city': 'Москва', 
-#         'schedule': '102756090', 
-#         'experience': 'От 3 до 6 лет', 
-#         'employment': 'Полная занятость', 
-#         'requirement': 'Знание одного из языков программирования на уровне применения ООП. (В приоритете <highlighttext>Python</highlighttext>, C++). Опыт разработки материалов для гос.экзаменов (ЕГЭ, ОГЭ...', 
-#         'responsibility': 'Мониторинг существующего рынка учебно-методических материалов в целях поиска контента, соответствующего Персонализированной модели образования (далее – ПМО) и Платформе СберКласс (далее...', 
-#         'salary': None, 
-#         'link': 'https://hh.ru/vacancy/102756090?from=applicant_recommended&hhtmFrom=main'
-#         }
-
-
-# def create(conn):
-#     cur = conn.cursor()
-#     cur.execute("CREATE TABLE vacancy_table (id int PRIMARY KEY, name varchar, city varchar, schedule varchar, experience varchar, employment varchar, requirement varchar, responsibility varchar, salary jsonb);")
-#     cur.fetchone()
-#     conn.commit()
-#     cur.close()
-#     conn.close()
-
-
-# def select(conn, filter_text, c_name):
-#     cur = conn.cursor()
-#     query = f"SELECT * FROM vacancy_table WHERE column_name = {c_name};"  # Замените column_name на имя столбца, по которому хотите фильтровать
-#     cur.execute(query, (filter_text,))
-#     rows = cur.fetchall()
-#     for row in rows:
-#         print(row)
-#     cur.close()
