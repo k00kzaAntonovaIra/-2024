@@ -56,4 +56,4 @@ COPY . .
 EXPOSE 8000
 
 # Run the application.
-CMD gunicorn -k uvicorn.workers.UvicornWorker backend.main:app --bind=0.0.0.0:8000
+CMD gunicorn -k uvicorn.workers.UvicornWorker main:app --bind=0.0.0.0:8000

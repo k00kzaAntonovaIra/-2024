@@ -5,7 +5,13 @@ import { DataView, DataViewLayoutOptions } from 'primereact/dataview'
 import { Button } from 'primereact/button'
 import { Card } from 'primereact/card'
 import { Link } from 'react-router-dom'
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+
+
 function Vacancy( ){
+    const navigate = useNavigate();
     const [data, setData] = useState([])
     const [text, setText] = useState("")
     const [experience, setExperience] = useState("")
@@ -45,21 +51,23 @@ function Vacancy( ){
         return(
             <Card title={item.name}>
                 <p className="m-0"></p>
-                <p>{item.city}</p>
+                <p>Город: {item.city}</p>
                 <p>{item.experience}</p>
                 <p>{item.employment}</p>
                 <p>{item.requirement}</p>
-                <p>{item.responsibility}</p>
-                <p>{item.salary}</p>
-                <p>{item.link}</p>
+                <p>Обязанности: {item.responsibility}</p>
+                <p>Зарплата: {item.salary}</p>
+                <p>Для лучшего ознакомления перейдите по ссылке: </p> <Link to={item.link}>{item.link}</Link>
 
             </Card>
 
         )
     }
-    // const itemTemplate = (it) => {
-    //     return item(it);
-    //  };
+    useEffect(() => {
+        fetch("http://127.0.0.1:8000")
+          .then((response) => response.json())
+          .catch((error) => console.log(error));
+      }, []);
  
     return(
         <>
@@ -86,8 +94,9 @@ function Vacancy( ){
                 </div>
             </div>
             <Button label="Посмотреть результат" onClick={Vacancy_db}/>
+            <Button onClick={() => navigate('/vacancy_parser')}>Переход</Button>
             <DataView value={data} itemTemplate={itemTemplate} />
-            <Button><Link to="/vacancy_parser">переход</Link></Button>
+            
 
         </>
     )
